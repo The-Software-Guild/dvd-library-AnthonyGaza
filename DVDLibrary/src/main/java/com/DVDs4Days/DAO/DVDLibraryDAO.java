@@ -10,5 +10,10 @@ public interface DVDLibraryDAO {
     DVD getDVD(String title);
     DVD removeDVD(String title);
 
+    void showDVDs(List<DVD> DVDList);
+
+    boolean isEmpty();
+    void editMenuChoice(int choice, DVD uneditedDVD);
+
 
 }

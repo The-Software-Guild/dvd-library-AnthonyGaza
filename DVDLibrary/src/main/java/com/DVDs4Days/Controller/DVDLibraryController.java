@@ -27,19 +27,17 @@ public class DVDLibraryController {
                     removeDVD();
                     break;
                 case 4:
-                    System.out.println("Editing DVD - TODO");
+                    editDVD();
                     break;
                 case 5:
                     findDVD();
                     break;
                 case 6:
-                    System.out.println("Exiting - TODO");
+                    view.exitMessage();
                     continuing = false;
-                default:
-                    System.out.println("UNKNOWN command - TODO");
             }
         }
-        System.out.println("cya");
+        System.out.println("Goodbye.");
 
     }
 
@@ -53,11 +51,8 @@ public class DVDLibraryController {
 
     private void showAllDVDs(){
         List<DVD> DVDList = dao.getAllDVDs();
-        if (DVDList.size()>0) {
-            view.displayAllDVDs(DVDList);
-        } else {
-            System.out.println("Library empty \n");
-        }
+        dao.showDVDs(DVDList);
+
     }
 
     private void removeDVD(){
@@ -71,6 +66,22 @@ public class DVDLibraryController {
         String toGet = io.readString("Please enter the title of the DVD you want to retrieve the details for");
 
         view.displayDVDInfo(dao.getDVD(toGet));
+    }
+
+    private void editDVD(){
+        if (dao.isEmpty()==true){
+            System.out.println("EMTPY");
+        } else {
+            System.out.println("Here's a list of DVDs currently in the library:");
+            showAllDVDs();
+            String titleToEdit = io.readString("Please enter the title of the DVD you want to edit: ");
+            view.displayDVDInfo(dao.getDVD(titleToEdit));
+            view.showFieldsMenu();
+            int field = io.readInt("Which field would you like to edit?",1,6);
+            dao.editMenuChoice(field,dao.getDVD(titleToEdit));
+            System.out.println("Here is the updated information");
+            view.displayDVDInfo(dao.getDVD(titleToEdit));
+        }
     }
 
 }

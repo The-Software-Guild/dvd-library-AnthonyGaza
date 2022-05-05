@@ -18,7 +18,7 @@ public class DVD {
 
         return "Title - " + this.title +
                 "\nYear of Release - " + this.releaseDate +
-                "\nMPAA rating - " + this.BBFCRating +
+                "\nBBFC rating - " + this.BBFCRating +
                 "\nDirector - " + this.director+
                 "\nStudio - " + this.studio +
                 "\nuserRating - " + this.userRating +
