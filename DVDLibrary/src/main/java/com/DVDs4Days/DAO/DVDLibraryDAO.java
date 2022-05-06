@@ -2,10 +2,11 @@ package com.DVDs4Days.DAO;
 import com.DVDs4Days.DTO.DVD;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public interface DVDLibraryDAO {
+public interface DVDLibraryDAO extends Serializable {
 
     DVD addDVD(String title, DVD dvd);
     List<DVD> getAllDVDs();

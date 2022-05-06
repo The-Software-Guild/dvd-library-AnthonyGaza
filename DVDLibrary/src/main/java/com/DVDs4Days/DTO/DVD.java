@@ -1,6 +1,8 @@
 package com.DVDs4Days.DTO;
 
-public class DVD {
+import java.io.Serializable;
+
+public class DVD implements Serializable {
     //can't be final because DVD's need to be editable
     private String title;
     private int releaseDate;

@@ -8,8 +8,8 @@ import com.DVDs4Days.UI.DVDLibraryView;
 import com.DVDs4Days.UI.UserIOImplementation;
 
 public class DVDLibraryDAOImplementation implements DVDLibraryDAO{
-    public static final String ROSTER_FILE = "Library.txt";
-    public static final String DELIMITER = "::";
+    //public static final String ROSTER_FILE = "Library.txt";
+    //public static final String DELIMITER = "::";
     private DVDLibraryView view = new DVDLibraryView();
     private UserIOImplementation io = new UserIOImplementation();
 
@@ -88,7 +88,7 @@ public class DVDLibraryDAOImplementation implements DVDLibraryDAO{
     @Override
     public void writeToFile() throws FileNotFoundException {
         try {
-            File saveFile=new File("Library.txt");
+            File saveFile=new File("LibrarySaveFile");
             FileOutputStream fos=new FileOutputStream(saveFile);
             ObjectOutputStream oos=new ObjectOutputStream(fos);
 
@@ -104,19 +104,18 @@ public class DVDLibraryDAOImplementation implements DVDLibraryDAO{
     @Override
     public void readFromFile() throws FileNotFoundException {
         try {
-            File toRead=new File("Library.txt");
+            File toRead=new File("LibrarySaveFile");
             FileInputStream fis=new FileInputStream(toRead);
             ObjectInputStream ois=new ObjectInputStream(fis);
-
-            HashMap<String,DVD> DVDs =(HashMap<String,DVD>)ois.readObject();
-
+            //read into temp hashmap
+            HashMap<String,DVD> DVDsTemp =(HashMap<String,DVD>)ois.readObject();
+            //Copy into DVDs hashmap
+            for (Map.Entry<String,DVD> entry : DVDsTemp.entrySet()){
+                DVDs.put(entry.getKey(),entry.getValue());
+            }
 
             ois.close();
             fis.close();
-            //print All data in MAP
-            for(Map.Entry<String,DVD> m :DVDs.entrySet()){
-                System.out.println(m.getKey()+" : "+m.getValue());
-            }
         } catch(Exception e) {
             System.out.println("File not found");
         }
