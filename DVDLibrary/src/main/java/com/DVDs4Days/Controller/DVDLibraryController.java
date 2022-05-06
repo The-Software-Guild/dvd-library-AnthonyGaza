@@ -4,15 +4,16 @@ import com.DVDs4Days.UI.DVDLibraryView;
 import com.DVDs4Days.UI.UserIOImplementation;
 import com.DVDs4Days.DAO.DVDLibraryDAOImplementation;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class DVDLibraryController {
     DVDLibraryView view = new DVDLibraryView();
     UserIOImplementation io = new UserIOImplementation();
     DVDLibraryDAOImplementation dao = new DVDLibraryDAOImplementation();
-    public void run(){
+    public void run() throws FileNotFoundException {
         boolean continuing = true;
-
+        dao.readFromFile();
         while (continuing){
             int menuChoice = view.displayChoicesGetChoice();
 
@@ -38,6 +39,7 @@ public class DVDLibraryController {
             }
         }
         System.out.println("Goodbye.");
+        dao.writeToFile();
 
     }
 
@@ -57,9 +59,12 @@ public class DVDLibraryController {
 
     private void removeDVD(){
         String toDelete = io.readString("please enter the title of the DVD you want to delete");
-        dao.removeDVD(toDelete);
-        System.out.println("DVD successfully removed, title - " + toDelete);
-
+        DVD dvdToDelete = dao.removeDVD(toDelete);
+        if (dvdToDelete!=null) {
+            System.out.println("DVD successfully removed, title - " + toDelete);
+        } else {
+            System.out.println("DVD not in library, check spelling or case.");
+        }
     }
 
     private void findDVD(){

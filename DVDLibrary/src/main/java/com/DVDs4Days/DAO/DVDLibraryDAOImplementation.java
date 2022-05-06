@@ -1,11 +1,15 @@
 package com.DVDs4Days.DAO;
 
 import com.DVDs4Days.DTO.DVD;
+
+import java.io.*;
 import java.util.*;
 import com.DVDs4Days.UI.DVDLibraryView;
 import com.DVDs4Days.UI.UserIOImplementation;
 
 public class DVDLibraryDAOImplementation implements DVDLibraryDAO{
+    public static final String ROSTER_FILE = "Library.txt";
+    public static final String DELIMITER = "::";
     private DVDLibraryView view = new DVDLibraryView();
     private UserIOImplementation io = new UserIOImplementation();
 
@@ -13,21 +17,18 @@ public class DVDLibraryDAOImplementation implements DVDLibraryDAO{
 
     @Override
     public DVD addDVD(String title, DVD dvd) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-
         return DVDs.put(title,dvd);
 
     }
 
     @Override
     public List<DVD> getAllDVDs() {
-        //throw new UnsupportedOperationException("Not supported yet.");
         return new ArrayList<>(DVDs.values());
     }
 
     @Override
     public DVD getDVD(String title) {
-//        throw new UnsupportedOperationException("Not supported yet.");
+//
         return DVDs.get(title);
     }
 
@@ -83,6 +84,44 @@ public class DVDLibraryDAOImplementation implements DVDLibraryDAO{
                 break;
         }
     }
+
+    @Override
+    public void writeToFile() throws FileNotFoundException {
+        try {
+            File saveFile=new File("Library.txt");
+            FileOutputStream fos=new FileOutputStream(saveFile);
+            ObjectOutputStream oos=new ObjectOutputStream(fos);
+
+            oos.writeObject(DVDs);
+            oos.flush();
+            oos.close();
+            fos.close();
+        } catch(Exception e) {
+            System.out.println("File not found");
+        }
+    }
+
+    @Override
+    public void readFromFile() throws FileNotFoundException {
+        try {
+            File toRead=new File("Library.txt");
+            FileInputStream fis=new FileInputStream(toRead);
+            ObjectInputStream ois=new ObjectInputStream(fis);
+
+            HashMap<String,DVD> DVDs =(HashMap<String,DVD>)ois.readObject();
+
+
+            ois.close();
+            fis.close();
+            //print All data in MAP
+            for(Map.Entry<String,DVD> m :DVDs.entrySet()){
+                System.out.println(m.getKey()+" : "+m.getValue());
+            }
+        } catch(Exception e) {
+            System.out.println("File not found");
+        }
+    }
+
 
 
 }

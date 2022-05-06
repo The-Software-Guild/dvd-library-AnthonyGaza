@@ -1,6 +1,8 @@
 package com.DVDs4Days.DAO;
 import com.DVDs4Days.DTO.DVD;
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 
 public interface DVDLibraryDAO {
@@ -14,6 +16,8 @@ public interface DVDLibraryDAO {
 
     boolean isEmpty();
     void editMenuChoice(int choice, DVD uneditedDVD);
+    void writeToFile() throws FileNotFoundException;
+    void readFromFile() throws FileNotFoundException;
 
 
 }
